@@ -1,0 +1,61 @@
+import java.util.*;
+
+public class Calendar {   
+
+    public static void main(String[] args) {   
+        int totalDaysInMonth = 31;  // days in month
+        int firstSunday = 6;        // Sunday on the 6th
+        printHeader();              
+        printCalendarMonth(totalDaysInMonth, firstSunday);   //print calendar
+        System.out.println("+------+------+------+------+------+------+------+");
+    }
+
+    public static void printHeader() {   
+        System.out.println("  Sun    Mon    Tue    Wed    Thu    Fri    Sat   ");
+        System.out.println("+------+------+------+------+------+------+------+");
+    }
+
+    public static String padded(int n, int width) {   
+        String s = "" + n;
+        for (int i = s.length(); i < width; i++) {
+            s = " " + s;
+        }
+        return s + "  ";
+    }
+
+    public static String getBlankSpace() {   //blank
+        return "      ";  
+    }
+
+    public static void printCalendarMonth(int totalDaysInMonth, int firstSunday) {  //printing calendar
+        int leadingBlankDays = 7 - firstSunday;    //blank days in first week
+        StringBuilder firstWeek = new StringBuilder();
+
+        // Append blank spaces before the first Sunday
+        for (int i = 0; i < firstSunday - 1; i++) {
+            firstWeek.append("|").append(getBlankSpace());
+        }
+
+        // Append the first week of days
+        for (int i = 1; i <= 7 - (firstSunday - 1); i++) {
+            firstWeek.append("|").append(padded(i, 4));
+        }
+        firstWeek.append("|\n");
+
+        System.out.print(firstWeek);
+
+        int currentDayNumber = 8 - (firstSunday - 1);
+        int totalWeeks = (int) Math.ceil((totalDaysInMonth - (7 - (firstSunday - 1))) / 7.0);
+        StringBuilder calendarBuilder = new StringBuilder();
+
+        for (int i = 0; i < totalWeeks; i++) {   //outer loop for weeks
+            for (int j = 0; j < 7; j++) {   //inner loop for days
+                String dayToPrint = currentDayNumber <= totalDaysInMonth ? padded(currentDayNumber, 4) : getBlankSpace();
+                calendarBuilder.append("|").append(dayToPrint);
+                currentDayNumber++;
+            }
+            calendarBuilder.append("|\n");
+        }
+        System.out.print(calendarBuilder);
+    }
+}
